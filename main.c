@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <time.h>
+#define MAXLEN 20
+
 
 struct Node {
     char letter;
@@ -9,6 +12,7 @@ struct Node {
     struct Node *next;
 };
 
+void getWordFromFile(char* filename, struct Node** head);
 struct Node* initNode();
 void createListFromString(struct Node** head, char* string);
 void guessLetter(struct Node* head, int *livesLeft);
@@ -22,7 +26,7 @@ int main() {
     struct Node* head = NULL;
     int livesLeft = 5;
 
-    createListFromString(&head, "alphabet");
+    getWordFromFile("levels/level1.txt", &head);
 
     while ( livesLeft ) {
         printList(head);
@@ -40,6 +44,34 @@ int main() {
 
     return 0;
 }
+
+void getWordFromFile(char* filename, struct Node** head)
+{
+    FILE *file = fopen(filename, "r");
+
+    int numOfWords = 0;
+    char newLine;
+    char** words = (char **) malloc(sizeof(char *));
+    words[numOfWords] = (char *) malloc(MAXLEN * sizeof(char));
+
+    srand(time(0));
+
+    // read the words from the file using dynamically allocated memory
+    while( !feof(file) ) {
+        fscanf(file, "%s", words[numOfWords]);
+        numOfWords += 1;
+
+        words = (char **) realloc(words, (numOfWords+1) * sizeof(char));
+        words[numOfWords] = (char *) malloc(MAXLEN * sizeof(char));
+    }
+
+    createListFromString(head, words[rand() % numOfWords]);
+
+    free(words);
+    fclose(file);
+}
+
+
 
 struct Node* initNode()
 {
