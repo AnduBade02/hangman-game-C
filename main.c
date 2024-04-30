@@ -3,8 +3,9 @@
 #include <string.h>
 #include <stdbool.h>
 #include <time.h>
-#define MAXLEN 20
 
+#define MAX_LEN 20
+#define MAX_LIVES 5
 
 struct Node {
     char letter;
@@ -12,37 +13,57 @@ struct Node {
     struct Node *next;
 };
 
+struct Node* selectLevel();
 void getWordFromFile(char* filename, struct Node** head);
 struct Node* initNode();
 void createListFromString(struct Node** head, char* string);
 void guessLetter(struct Node* head, int *livesLeft);
 bool isWinner(struct Node* head);
 bool modifiedShowStatus(struct Node* head, char c);
+void revealWord(struct Node* head);
 void printList(struct Node* head);
-
 
 int main() {
 
     struct Node* head = NULL;
-    int livesLeft = 5;
+    int livesLeft = MAX_LIVES;
 
-    getWordFromFile("levels/level1.txt", &head);
+    head = selectLevel();
 
     while ( livesLeft ) {
         printList(head);
-        printf(" (%d lives left)", livesLeft);
+        printf(" (\033[0;31m%d\033[0m lives left)", livesLeft);
         guessLetter(head, &livesLeft);
 
         if ( isWinner(head) ) {
             printList(head);
-            printf("\n You win! ");
+            printf("\n\033[0;32mYou win!\033[0m ");
             return 0;
         }
     }
 
-    printf("\n You lost! ");
+    printf("\n\033[0;31mYou lost!\033[0m");
+    revealWord(head);
 
     return 0;
+}
+
+struct Node* selectLevel()
+{
+    struct Node* head = NULL;
+    char level[1];
+    char filename[20] = "levels/level";
+
+    printf("Select a level (1, 2, 3): ");
+    fscanf(stdin, "%s", level);
+    fgetc(stdin);
+
+    strcat(filename, level);
+    strcat(filename, ".txt\0");
+
+    getWordFromFile(filename, &head);
+
+    return head;
 }
 
 void getWordFromFile(char* filename, struct Node** head)
@@ -52,7 +73,7 @@ void getWordFromFile(char* filename, struct Node** head)
     int numOfWords = 0;
     char newLine;
     char** words = (char **) malloc(sizeof(char *));
-    words[numOfWords] = (char *) malloc(MAXLEN * sizeof(char));
+    words[numOfWords] = (char *) malloc(MAX_LEN * sizeof(char));
 
     srand(time(0));
 
@@ -61,8 +82,8 @@ void getWordFromFile(char* filename, struct Node** head)
         fscanf(file, "%s", words[numOfWords]);
         numOfWords += 1;
 
-        words = (char **) realloc(words, (numOfWords+1) * sizeof(char));
-        words[numOfWords] = (char *) malloc(MAXLEN * sizeof(char));
+        words = (char **) realloc(words, (numOfWords+1) * sizeof(char *));
+        words[numOfWords] = (char *) malloc(MAX_LEN * sizeof(char));
     }
 
     createListFromString(head, words[rand() % numOfWords]);
@@ -70,7 +91,6 @@ void getWordFromFile(char* filename, struct Node** head)
     free(words);
     fclose(file);
 }
-
 
 
 struct Node* initNode()
@@ -110,10 +130,11 @@ void createListFromString(struct Node** head, char* string)
 
 void guessLetter(struct Node* head, int *livesLeft)
 {
-    char c, newLine;
+    char c;
 
     printf("\nGuess a letter: ");
-    fscanf(stdin, "%c%c", &c, &newLine);
+    c = fgetc(stdin);
+    fgetc(stdin);
 
     if ( !modifiedShowStatus(head, c) ) // if no letter was guessed
         *livesLeft -= 1;                // decrement the no of guesses left
@@ -150,6 +171,19 @@ bool modifiedShowStatus(struct Node* head, char c)
     return isModified;
 }
 
+void revealWord(struct Node* head)
+{
+    struct Node* node = head;
+    // make the entire word visible
+    while ( node != NULL ) {
+        node->show = true;
+        node = node->next;
+    }
+
+    printList(head);
+}
+
+
 void printList(struct Node* head)
 {
     struct Node* node = head;
@@ -158,7 +192,7 @@ void printList(struct Node* head)
 
     while ( node != NULL ) {
         if( node->show )
-            printf("%c", node->letter);
+            printf("\033[0;32m%c\033[0m", node->letter);
         else
             printf("_");
         node = node->next;
