@@ -54,7 +54,7 @@ struct Node* selectLevel()
     char level[1];
     char filename[20] = "levels/level";
 
-    printf("Select a level (1, 2, 3): ");
+    printf("Select a level (1, 2, 3, 4): ");
     fscanf(stdin, "%s", level);
     fgetc(stdin);
 
