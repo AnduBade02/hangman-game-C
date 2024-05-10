@@ -45,6 +45,7 @@ int main() {
     printf("\n\033[0;31mYou lost!\033[0m");
     revealWord(head);
 
+    
     return 0;
 }
 
