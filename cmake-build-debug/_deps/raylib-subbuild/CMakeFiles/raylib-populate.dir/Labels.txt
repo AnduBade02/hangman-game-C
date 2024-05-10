@@ -1,0 +1,14 @@
+# Target labels
+ raylib-populate
+# Source files and their labels
+/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-subbuild/CMakeFiles/raylib-populate
+/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-subbuild/CMakeFiles/raylib-populate.rule
+/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-subbuild/CMakeFiles/raylib-populate-complete.rule
+/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-build.rule
+/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-configure.rule
+/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-download.rule
+/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-install.rule
+/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-mkdir.rule
+/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-patch.rule
+/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-test.rule
+/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-update.rule
