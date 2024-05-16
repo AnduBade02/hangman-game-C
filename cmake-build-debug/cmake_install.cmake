@@ -1,4 +1,4 @@
-# Install script for directory: /Users/bade/Documents/GitHub/hangman-game
+# Install script for directory: /Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -39,7 +39,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-build/cmake_install.cmake")
+  include("/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-build/cmake_install.cmake")
 
 endif()
 
@@ -51,5 +51,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

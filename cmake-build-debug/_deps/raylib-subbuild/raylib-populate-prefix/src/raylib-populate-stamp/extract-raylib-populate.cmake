@@ -5,8 +5,8 @@ cmake_minimum_required(VERSION 3.5)
 
 # Make file names absolute:
 #
-get_filename_component(filename "/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/5.0.tar.gz" ABSOLUTE)
-get_filename_component(directory "/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-src" ABSOLUTE)
+get_filename_component(filename "/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/5.0.tar.gz" ABSOLUTE)
+get_filename_component(directory "/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-src" ABSOLUTE)
 
 message(STATUS "extracting...
      src='${filename}'

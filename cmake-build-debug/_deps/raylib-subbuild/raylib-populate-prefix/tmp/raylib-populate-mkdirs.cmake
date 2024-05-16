@@ -4,19 +4,19 @@
 cmake_minimum_required(VERSION 3.5)
 
 file(MAKE_DIRECTORY
-  "/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-src"
-  "/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-build"
-  "/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix"
-  "/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/tmp"
-  "/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp"
-  "/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src"
-  "/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp"
+  "/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-src"
+  "/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-build"
+  "/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix"
+  "/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/tmp"
+  "/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp"
+  "/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src"
+  "/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp"
 )
 
 set(configSubDirs )
 foreach(subDir IN LISTS configSubDirs)
-    file(MAKE_DIRECTORY "/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/${subDir}")
+    file(MAKE_DIRECTORY "/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/${subDir}")
 endforeach()
 if(cfgdir)
-  file(MAKE_DIRECTORY "/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp${cfgdir}") # cfgdir has leading slash
+  file(MAKE_DIRECTORY "/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp${cfgdir}") # cfgdir has leading slash
 endif()

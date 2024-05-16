@@ -1,0 +1,21 @@
+# ninja log v5
+0	9	1715612762413477818	raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-mkdir	7c690a470fccddd
+8498	8506	1715612770910435434	/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-patch	e9f1418f597aa575
+8540	8552	1715612770956203935	/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-subbuild/CMakeFiles/raylib-populate-complete	b17563ac2f9ac49d
+0	9	1715612762413477818	/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-mkdir	7c690a470fccddd
+8488	8497	1715612770901639296	raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-update	91e47f812c63b141
+8488	8497	1715612770901639296	/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-update	91e47f812c63b141
+8506	8515	1715612770919115157	/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-configure	4f335c3d459a4044
+9	8488	1715612770892422039	/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-download	3819e0e1ef067774
+9	8488	1715612770892422039	raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-download	3819e0e1ef067774
+8498	8506	1715612770910435434	raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-patch	e9f1418f597aa575
+8515	8524	1715612770927728798	raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-build	a65e4d5e02240ccf
+8506	8515	1715612770919115157	raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-configure	4f335c3d459a4044
+8515	8524	1715612770927728798	/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-build	a65e4d5e02240ccf
+8524	8532	1715612770936101983	raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-install	4a7e213f4a6dec1c
+8540	8552	1715612770956203935	raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-done	b17563ac2f9ac49d
+8532	8540	1715612770944422960	/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-test	7eb3418cf8714ff5
+8532	8540	1715612770944422960	raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-test	7eb3418cf8714ff5
+8524	8532	1715612770936101983	/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-install	4a7e213f4a6dec1c
+8540	8552	1715612770956203935	CMakeFiles/raylib-populate-complete	b17563ac2f9ac49d
+8540	8552	1715612770956203935	/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-done	b17563ac2f9ac49d

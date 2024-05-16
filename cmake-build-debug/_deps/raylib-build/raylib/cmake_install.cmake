@@ -1,4 +1,4 @@
-# Install script for directory: /Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-src/src
+# Install script for directory: /Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-src/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -38,7 +38,7 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-build/raylib/libraylib.a")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-build/raylib/libraylib.a")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libraylib.a" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libraylib.a")
     execute_process(COMMAND "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib" "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libraylib.a")
@@ -47,27 +47,27 @@ endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE FILE FILES
-    "/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-src/src/raylib.h"
-    "/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-src/src/rlgl.h"
-    "/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-src/src/raymath.h"
+    "/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-src/src/raylib.h"
+    "/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-src/src/rlgl.h"
+    "/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-src/src/raymath.h"
     )
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-build/raylib/raylib.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-build/raylib/raylib.pc")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/raylib" TYPE FILE FILES "/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-build/raylib/raylib-config-version.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/raylib" TYPE FILE FILES "/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-build/raylib/raylib-config-version.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/raylib" TYPE FILE FILES "/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-src/src/../cmake/raylib-config.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/raylib" TYPE FILE FILES "/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-src/src/../cmake/raylib-config.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-build/raylib/external/glfw/cmake_install.cmake")
+  include("/Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-build/raylib/external/glfw/cmake_install.cmake")
 
 endif()
 

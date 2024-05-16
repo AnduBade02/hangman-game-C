@@ -1,4 +1,4 @@
-# Install script for directory: /Users/bade/Documents/GitHub/hangman-game/cmake-build-debug/_deps/raylib-src/src/external/glfw/src
+# Install script for directory: /Users/alexandrurosca/Desktop/Facultate/Proiectarea Algoritmilor/Hangman/cmake-build-debug/_deps/raylib-src/src/external/glfw/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
