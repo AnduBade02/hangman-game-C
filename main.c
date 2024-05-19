@@ -4,7 +4,6 @@
 #include <time.h>
 #include <ctype.h>
 #include <stdio.h>
-#include <limits.h>
 #include <unistd.h>
 
 #define MAX_GUESSES 6
@@ -20,27 +19,23 @@ struct Node {
 };
 
 // Function prototypes
-struct Node* selectLevel(int gameLevel);
-void getWordFromFile(char* filename, struct Node** head);
-void createListFromString(struct Node** head, char* string);
+void selectLevel(int gameLevel, char **question, char **answer);
+void getWordFromFile(char* filename, char** question, char** answer);
+struct Node* createListFromString(char* string);
 struct Node* initNode();
-struct Node* createNode(char letter);
 char* createStringFromList(struct Node* head);
-const char* chooseRandomWord(const char *wordList[], int listSize);
 void drawHangman(int lives);
 void drawDeadHangman();
-void drawUI(struct Node *wordList, char guessedLettersStr[], int lives);
-bool checkWin(struct Node *wordList);
+void drawUI(struct Node* answerList, char* hangmanQuestion, char guessedLettersStr[], int lives);
+bool checkWin(struct Node *answerList);
 bool checkLoss(int lives);
-void resetGame(struct Node **wordList, char guessedLettersStr[], bool *gameOver, int *lives, int gameLevel);
+void resetGame(struct Node **answerList, char** hangmanQuestion, char guessedLettersStr[], bool *gameOver, int *lives, int gameLevel);
 void drawMenu();
-void drawGameOver(bool win, const char *word);
-void mainGameLoop(struct Node *wordList, char guessedLettersStr[], int *lives, bool *gameOver);
 
 int main() {
-
-    const int screenWidth = 800;
-    const int screenHeight = 600;
+    // Initialization
+    const int screenWidth = 1200;
+    const int screenHeight = 800;
     InitWindow(screenWidth, screenHeight, "Hangman");
     SetTargetFPS(60);
 
@@ -51,14 +46,18 @@ int main() {
     bool firstGame = true;
 
     char guessedLettersStr[27] = "";
-    struct Node *wordList = NULL;
+    char *hangmanQuestion = NULL;
+    struct Node *answerList = NULL;
     int lives = MAX_GUESSES;
     int gameLevel = 0;
 
-    Image backgroundImage = LoadImage("fundal.png");
+    // Load the background image
+    Image backgroundImage = LoadImage("assets/fundal.png");
+    ImageResize(&backgroundImage, screenWidth, screenHeight);
     backgroundTexture = LoadTextureFromImage(backgroundImage);
     UnloadImage(backgroundImage);
 
+    // Main game loop
     while (gameRunning) {
         bool guessedLetters[26] = {false};
 
@@ -66,7 +65,7 @@ int main() {
             if (IsKeyPressed(KEY_ENTER)) {
                 gameStarted = true;
                 restartPending = false;
-
+                // Select a level
                 while ( gameLevel == 0 )
                 {
                     ClearBackground(RAYWHITE);
@@ -84,7 +83,8 @@ int main() {
 
                     EndDrawing();
                 }
-                resetGame(&wordList, guessedLettersStr, &gameOver, &lives, gameLevel);
+                resetGame(&answerList, &hangmanQuestion, guessedLettersStr, &gameOver, &lives, gameLevel);
+
                 gameLevel = 0;
                 firstGame = false;
             }
@@ -93,21 +93,21 @@ int main() {
                 gameRunning = false;
                 break;
             }
-
+            // Draw the main menu
             BeginDrawing();
             ClearBackground(RAYWHITE);
             DrawTexture(backgroundTexture, 0, 0, WHITE);
             if (firstGame){
-                DrawText("Welcome! Press Enter to start game", 150, screenHeight / 2 - 20, 30, BLACK);
+                DrawText("Welcome! Press Enter to start game", 350, screenHeight / 2 - 20, 30, BLACK);
             } else {
                 // Display full start options after the first game
-                DrawText("Press Enter to start", 170, 250, 30, BLACK);
-                DrawText("Press Backspace to quit", 270, 300, 30, BLACK);
+                DrawText("Press Enter to start", 400, 350, 30, BLACK);
+                DrawText("Press Backspace to quit", 450, 400, 30, BLACK);
             }
 
             EndDrawing();
         } else if (gameOver) {
-            if(checkWin(wordList))
+            if(checkWin(answerList))
                 sleep(3); // pause for 3 seconds to see the word
 
             for (int i = 0; i < 60 * 2; i++) {
@@ -116,10 +116,10 @@ int main() {
                 DrawTexture(backgroundTexture, 0, 0, WHITE);
                 if (checkLoss(lives)) {
                     char chosenWord[40] = "You Lose! The word was: ";
-                    strcat(chosenWord, createStringFromList(wordList));
+                    strcat(chosenWord, createStringFromList(answerList));
 
-                    DrawText(chosenWord, screenWidth / 2 - MeasureText(chosenWord, 40) / 2, screenHeight / 2 - 200, 40, RED);
-                    DrawText(hangmanWord, screenWidth / 2 - MeasureText(hangmanWord, 40) / 2, screenHeight / 2 - 160, 40, RED);
+                    DrawText(chosenWord, screenWidth / 2 - MeasureText(chosenWord, 40) / 2, screenHeight / 2 - 50, 40, RED);
+                    DrawText(hangmanWord, screenWidth / 2 - MeasureText(hangmanWord, 40) / 2, screenHeight / 2 - 10, 40, RED);
                     drawDeadHangman();
                 } else {
                     DrawText("You Win!", screenWidth / 2 - MeasureText("You Win!", 40) / 2, screenHeight / 2 - 20, 40, GREEN);
@@ -136,17 +136,16 @@ int main() {
                 break;
             } else {
                 int key = GetKeyPressed();
-
+                // Check if the key is a letter
                 if (key >= 0 && key < 256 && isalpha(key)) {
                     int letterIndex = tolower(key) - 'a';
-                    char guessedLetter = tolower(key);
+                    char guessedLetter = (char)tolower(key);
+                    // Check if the letter was already guessed
                     if (!guessedLetters[letterIndex]) {
                         guessedLetters[letterIndex] = true;
                         bool found = false;
-                        bool isModified = false;
-                        bool specialSymbols = false;
-
-                        struct Node *current = wordList;
+                        // Check if the letter is in the answer
+                        struct Node *current = answerList;
                         while ( current != NULL ) {
                             // if a letter from the string was guessed
                             if ( current->letter == guessedLetter ) {
@@ -156,7 +155,7 @@ int main() {
                             current = current->next;
                         }
 
-                        int len = strlen(guessedLettersStr);
+                        int len = (int)strlen(guessedLettersStr);
 
                         if (!found) {
                             bool alreadyGuessed = false;
@@ -170,13 +169,13 @@ int main() {
                             if (!alreadyGuessed)
                                 lives--;
                         }
-
+                        // Add the guessed letter to the guessed letters string
                         if( !strchr(guessedLettersStr, key)) {
-                            guessedLettersStr[len] = key;
+                            guessedLettersStr[len] = (char)key;
                             guessedLettersStr[len + 1] = '\0';
                         }
 
-                        gameOver = checkWin(wordList) || checkLoss(lives);
+                        gameOver = checkWin(answerList) || checkLoss(lives);
                     }
                 }
             }
@@ -184,17 +183,17 @@ int main() {
             BeginDrawing();
             ClearBackground(RAYWHITE);
             DrawTexture(backgroundTexture, 0, 0, WHITE);
-            drawUI(wordList, guessedLettersStr, lives);
+            drawUI(answerList, hangmanQuestion, guessedLettersStr, lives);
             EndDrawing();
         } // End of round loop
     } // End of main game loop
 
     CloseWindow();
 
-    // Free memory allocated for wordList
-    while (wordList != NULL) {
-        struct Node *temp = wordList;
-        wordList = wordList->next;
+    // Free memory allocated for answerList
+    while (answerList != NULL) {
+        struct Node *temp = answerList;
+        answerList = answerList->next;
         free(temp);
     }
 
@@ -202,82 +201,85 @@ int main() {
 }
 
 void drawMenu() {
-    DrawText("Select a Level", 300, 200, 40, BLACK);
-    DrawText("1. Easy", 320, 250, 30, BLACK);
-    DrawText("2. Medium", 320, 300, 30, BLACK);
-    DrawText("3. Hard", 320, 350, 30, BLACK);
-    DrawText("4. Very Hard", 320, 400, 30, BLACK);
+    DrawText("Select a Level", 450, 250, 40, BLACK);
+    DrawText("1. Easy", 470, 300, 30, BLACK);
+    DrawText("2. Medium", 470, 350, 30, BLACK);
+    DrawText("3. Hard", 470, 400, 30, BLACK);
+    DrawText("4. Very Hard", 470, 450, 30, BLACK);
 }
 
-struct Node* selectLevel(int gameLevel) {
-    struct Node* head = NULL;
+void selectLevel(int gameLevel, char **question, char **answer) {
     char level[2];
-    char filename[20] = "levels/level";
+    char filename[30] = "assets/levels/level";
 
-    level[0] = gameLevel + '0';
-    level[1] = '\0';
+    level[0] = (char)(gameLevel + '0');
+    level[1] = '\0'; // solution for Linux based systems
 
+    // Concatenate the level number to the filename
     strcat(filename, level);
-    strcat(filename, ".txt\0");
+    strcat(filename, ".txt");
 
-    getWordFromFile(filename, &head);
-
-    return head;
+    getWordFromFile(filename, question, answer);
 }
 
-void getWordFromFile(char* filename, struct Node** head)
-{
-    FILE *file = fopen(filename, "r");
 
-    if(file == NULL)
-    {
+void getWordFromFile(char* filename, char** question, char** answer) {
+    FILE *file = fopen(filename, "r");
+    if(file == NULL) {
         printf("Error: file hasn't opened!");
         exit(1);
     }
 
-    int numOfWords = 0;
-    char** words = (char **) malloc(sizeof(char *));
-    words[numOfWords] = (char *) malloc(MAX_LEN * sizeof(char));
+    int numOfQuestions = 0;
+    char** questions = (char **) malloc(sizeof(char *));
+    questions[numOfQuestions] = (char *) malloc(MAX_LEN * sizeof(char));
 
-    srand(time(0));
+    srand(time(NULL));
 
     // read the words from the file using dynamically allocated memory
-    while(fgets(words[numOfWords], 100, file) != 0)
-    {
-        int len = strlen(words[numOfWords]);
+    while(fgets(questions[numOfQuestions], 256, file) != 0) {
+        int len = (int)strlen(questions[numOfQuestions]);
+        if (len > 0 && questions[numOfQuestions][len - 1] == '\n') {
+            questions[numOfQuestions][len - 1] = '\0'; // remove the newline character
+        }
 
-        if (len > 0 && words[numOfWords][len - 1] == '\n') {
-            words[numOfWords][len - 1] = '\0';
-        }   // we want to remove the newline generated by fgets
-
-        numOfWords += 1;
-
-        words = (char **) realloc(words, (numOfWords+1) * sizeof(char *));
-        words[numOfWords] = (char *) malloc(MAX_LEN * sizeof(char));
+        numOfQuestions++;
+        questions = (char **) realloc(questions, (numOfQuestions + 1) * sizeof(char *));
+        questions[numOfQuestions] = (char *) malloc(MAX_LEN * sizeof(char));
     }
 
-    createListFromString(head, words[rand() % numOfWords]);
+    // choose a random question-answer pair
+    char* chosenPair = questions[rand() % numOfQuestions];
+    *question = strdup(strtok(chosenPair, "*"));
+    *answer = strdup(strtok(NULL, "*"));
 
-    free(words);
+    // free allocated memory for questions array
+    for (int i = 0; i < numOfQuestions; i++) {
+        free(questions[i]);
+    }
+    free(questions);
     fclose(file);
 }
 
-void createListFromString(struct Node** head, char* string)
+
+struct Node* createListFromString(char* string)
 {
+    struct Node* head = NULL;
+
     if (strlen(string) == 0 ) // if the string is empty there is no list to create
-        return;
+        return NULL;
 
     int i = 0;
     struct Node* newNode = initNode();
     newNode->letter = string[i++];
 
-    *head = newNode; // initiate the head of the list with the first letter of the string
+    head = newNode; // initiate the head of the list with the first letter of the string
 
     // iterate through the rest of the string and assign a letter for each node of the list
     while ( string[i] ) {
         struct Node* tempNode = initNode();
-
         tempNode->letter = string[i];
+
         if( tempNode->letter == ' ' || tempNode->letter == '-')
             tempNode->show = true;
 
@@ -286,6 +288,8 @@ void createListFromString(struct Node** head, char* string)
 
         i++;
     }
+
+    return head;
 }
 
 struct Node* initNode()
@@ -295,14 +299,6 @@ struct Node* initNode()
     newNode->show = false;
     newNode->next = NULL;
 
-    return newNode;
-}
-
-struct Node* createNode(char letter) {
-    struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
-    newNode->letter = letter;
-    newNode->show = false;
-    newNode->next = NULL;
     return newNode;
 }
 
@@ -318,6 +314,7 @@ char* createStringFromList(struct Node* head)
     char* string = (char *)malloc(len * sizeof(char));
     current = head;
     int i = 0;
+    // iterate through the list and assign a letter to the string
     while (current != NULL) {
         string[i++] = current->letter;
         current = current->next;
@@ -329,14 +326,8 @@ char* createStringFromList(struct Node* head)
 
 }
 
-const char* chooseRandomWord(const char *wordList[], int listSize) {
-    srand(time(NULL));
-    int randomIndex = rand() % listSize;
-    return wordList[randomIndex];
-}
-
 void drawHangman(int lives) {
-    Vector2 basePos = {100, 500};
+    Vector2 basePos = {30, 680};
     int radius = 30;
     if (lives < 7) {
         DrawLineEx((Vector2){basePos.x, basePos.y + 30}, (Vector2) {basePos.x, basePos.y - 300}, 5, BLACK);
@@ -350,20 +341,13 @@ void drawHangman(int lives) {
     if (lives < 4) DrawLineEx((Vector2){basePos.x + 67, basePos.y - 200 + 2 * radius + 20}, (Vector2){basePos.x + 55, basePos.y - 200 + 2 * radius + 0}, 5, BLACK);
     if (lives < 3) DrawLineEx((Vector2){basePos.x + 100, basePos.y - 200 + 2 * radius + 20}, (Vector2){basePos.x + 133, basePos.y - 200 + 2 * radius + 20}, 5, BLACK);
     if (lives < 3) DrawLineEx((Vector2){basePos.x + 133, basePos.y - 200 + 2 * radius + 20}, (Vector2){basePos.x + 145, basePos.y - 200 + 2 * radius + 0}, 5, BLACK);
+    if (lives < 2) DrawLineEx((Vector2){basePos.x + 100, basePos.y - 50}, (Vector2){basePos.x + 70, basePos.y + 20}, 5, BLACK); // left le
+    if (lives < 1) DrawLineEx((Vector2){basePos.x + 100, basePos.y - 50}, (Vector2){basePos.x + 130, basePos.y + 20}, 5, BLACK); // right leg
 
-    // Modified leg drawing
-    if (lives < 2) {
-        DrawLineEx((Vector2){basePos.x + 100, basePos.y - 200 + 150}, (Vector2){basePos.x + 70, basePos.y - 100 + 20}, 5, BLACK); // Left leg
-        DrawLineEx((Vector2){basePos.x + 70, basePos.y - 100 + 20}, (Vector2){basePos.x + 50, basePos.y - 50 + 20}, 5, BLACK);  // Lower left leg
-    }
-    if (lives < 1) {
-        DrawLineEx((Vector2){basePos.x + 100, basePos.y - 200 + 150}, (Vector2){basePos.x + 130, basePos.y - 100 + 20}, 5, BLACK); // Right leg
-        DrawLineEx((Vector2){basePos.x + 130, basePos.y - 100 + 20}, (Vector2){basePos.x + 150, basePos.y - 50 + 20}, 5, BLACK); // Lower right leg
-    }
 }
 
 void drawDeadHangman(void) {
-    Vector2 basePos = {100, 500};
+    Vector2 basePos = {30, 680};
     int radius = 30;
     DrawLineEx((Vector2){basePos.x, basePos.y + 30}, (Vector2) {basePos.x, basePos.y - 300}, 5, BLACK);
     DrawLineEx((Vector2){basePos.x, basePos.y - 300}, (Vector2){basePos.x + 100, basePos.y - 300}, 5, BLACK);
@@ -384,24 +368,21 @@ void drawDeadHangman(void) {
     DrawLineEx((Vector2){basePos.x + 67, basePos.y - 200 + 2 * radius + 20}, (Vector2){basePos.x + 55, basePos.y - 200 + 2 * radius + 0}, 5, BLACK);
     DrawLineEx((Vector2){basePos.x + 100, basePos.y - 200 + 2 * radius + 20}, (Vector2){basePos.x + 133, basePos.y - 200 + 2 * radius + 20}, 5, BLACK);
     DrawLineEx((Vector2){basePos.x + 133, basePos.y - 200 + 2 * radius + 20}, (Vector2){basePos.x + 145, basePos.y - 200 + 2 * radius + 0}, 5, BLACK);
-    DrawLineEx((Vector2){basePos.x + 100, basePos.y - 200 + 150}, (Vector2){basePos.x + 70, basePos.y - 100 + 20}, 5, BLACK); // Left leg
-    DrawLineEx((Vector2){basePos.x + 70, basePos.y - 100 + 20}, (Vector2){basePos.x + 50, basePos.y - 50 + 20}, 5, BLACK);  // Lower left leg
-    DrawLineEx((Vector2){basePos.x + 100, basePos.y - 200 + 150}, (Vector2){basePos.x + 130, basePos.y - 100 + 20}, 5, BLACK); // Right leg
-    DrawLineEx((Vector2){basePos.x + 130, basePos.y - 100 + 20}, (Vector2){basePos.x + 150, basePos.y - 50 + 20}, 5, BLACK); // Lower right leg
+    DrawLineEx((Vector2){basePos.x + 100, basePos.y - 50}, (Vector2){basePos.x + 70, basePos.y + 20}, 5, BLACK); // Shorter left leg
+    DrawLineEx((Vector2){basePos.x + 100, basePos.y - 50}, (Vector2){basePos.x + 130, basePos.y + 20}, 5, BLACK);
 }
 
 
-void drawUI(struct Node* wordList, char guessedLettersStr[], int lives) {
+void drawUI(struct Node* answerList, char* hangmanQuestion, char guessedLettersStr[], int lives) {
 
-    int screenHeight = 600;
-    int screenWidth = 800;
+    int screenWidth = 1200;
 
     DrawText("Hangman", screenWidth / 2 - MeasureText("Hangman", 80) / 2, 10, 80, BLACK);
     drawHangman(lives);
 
-    struct Node* current = wordList;
-    int x = 300;
-    int y = 300;
+    struct Node* current = answerList;
+    int x = 100;
+    int y = 250;
     int space = 25; // Adjust the space between characters
     while (current != NULL) {
         if (current->show) {
@@ -413,13 +394,16 @@ void drawUI(struct Node* wordList, char guessedLettersStr[], int lives) {
         x += space; // Increment x position
         current = current->next;
     }
-    DrawText(TextFormat("Guessed: %s", guessedLettersStr), 300, 200, 40, DARKGRAY);
-    DrawText(TextFormat("Lives: %d", lives), 300, 250, 40, DARKGRAY);
+    DrawText(TextFormat("Guessed: %s", guessedLettersStr), 100, 150, 40, DARKGRAY);
+    DrawText(TextFormat("Lives: %d", lives), 100, 200, 40, DARKGRAY);
+    DrawText(TextFormat("Question:"), 550, 300, 40, DARKGRAY);
+    DrawText(TextFormat("\n%s", hangmanQuestion), 180, 350, 18, DARKGRAY);
 }
 
 
-bool checkWin(struct Node *wordList) {
-    struct Node *current = wordList;
+bool checkWin(struct Node *answerList) {
+    struct Node *current = answerList;
+    // Check if all the letters have been guessed
     while (current != NULL) {
         if (!current->show) {
             return false;
@@ -433,20 +417,25 @@ bool checkLoss(int lives) {
     return lives == 0;
 }
 
-void resetGame(struct Node **wordList, char guessedLettersStr[], bool *gameOver, int *lives, int gameLevel)
-{
-    while (*wordList != NULL) {
-        struct Node *temp = *wordList;
-        *wordList = (*wordList)->next;
+void resetGame(struct Node **answerList, char** hangmanQuestion, char guessedLettersStr[], bool *gameOver, int *lives, int gameLevel) {
+    // Free memory allocated for answerList
+    while (*answerList != NULL) {
+        struct Node *temp = *answerList;
+        *answerList = (*answerList)->next;
         free(temp);
     }
-
+    // Free memory allocated for hangmanQuestion
     if (hangmanWord != NULL) {
-        free(hangmanWord);
+        free((void *)hangmanWord);
     }
 
-    *wordList = selectLevel(gameLevel);
+    char *hangmanAnswer = NULL;
+    // Select a new level
+    selectLevel(gameLevel, hangmanQuestion, &hangmanAnswer);
+    // Save the answer to a global variable
+    *answerList = createListFromString(hangmanAnswer);
     *gameOver = false;
     *lives = MAX_GUESSES;
     memset(guessedLettersStr, 0, sizeof(guessedLettersStr));
+
 }
